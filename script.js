@@ -1,355 +1,149 @@
-// 获取所有输入元素
-const currentAge = document.getElementById('currentAge');
-const savings = document.getElementById('savings');
-const annualIncome = document.getElementById('annualIncome');
-const savingRate = document.getElementById('savingRate');
-const expectedIncome = document.getElementById('expectedIncome');
-const resultSection = document.getElementById('result');
-const familyIncome = document.getElementById('familyIncome');
-const familyExpense = document.getElementById('familyExpense');
-
-// 添加国家默认参数配置
-const countryDefaults = {
-    CN: { // 中国
-        investmentReturn: 4.5,
-        inflation: 2.5,
-        lifeExpectancy: {
-            male: 75,
-            female: 80
-        },
-        description: "基于中国人民银行基准利率和历史通胀数据"
-    },
-    US: { // 美国
-        investmentReturn: 6.0,
-        inflation: 2.0,
-        lifeExpectancy: {
-            male: 77,
-            female: 82
-        },
-        description: "基于美联储数据和标普500历史回报"
-    },
-    JP: { // 日本
-        investmentReturn: 3.0,
-        inflation: 1.0,
-        lifeExpectancy: {
-            male: 81,
-            female: 87
-        },
-        description: "基于日本央行数据和历史经济指标"
-    },
-    GB: { // 英国
-        investmentReturn: 5.0,
-        inflation: 2.0,
-        lifeExpectancy: {
-            male: 79,
-            female: 83
-        },
-        description: "基于英格兰银行数据"
-    },
-    DE: { // 德国
-        investmentReturn: 4.0,
-        inflation: 1.5,
-        lifeExpectancy: {
-            male: 79,
-            female: 84
-        },
-        description: "基于欧洲央行数据"
-    },
-    SG: { // 新加坡
-        investmentReturn: 5.0,
-        inflation: 1.8,
-        lifeExpectancy: {
-            male: 82,
-            female: 86
-        },
-        description: "基于新加坡金融管理局数据"
-    }
+// 名言数据库
+const quotes = {
+    red: [  // 热情、积极的名言
+        { text: "生命不息，奋斗不止。", author: "孙中山" },
+        { text: "星星之火，可以燎原。", author: "毛泽东" },
+        { text: "不想当将军的士兵不是好士兵。", author: "拿破仑" },
+        { text: "当你全力以赴的时候，全世界都会为你让路。", author: "美国谚语" },
+        { text: "成功不是终点，失败也不是终结，唯有勇气才是永恒。", author: "温斯顿·丘吉尔" },
+        { text: "没有什么能够阻挡太阳升起。", author: "《肖申克的救赎》" },
+        { text: "燃烧吧，青春！", author: "北野武" },
+        { text: "不要等待机会，而要创造机会。", author: "乔治·萧伯纳" },
+        { text: "生命是一场盛大的冒险。", author: "《飞屋环游记》" },
+        { text: "要么创造点什么，要么就去死。", author: "海明威" },
+        { text: "永不言弃。", author: "《洛奇》" },
+        { text: "勇气是控制恐惧的能力，而不是没有恐惧。", author: "马克·吐温" },
+        { text: "我们的征途是星辰大海。", author: "《银河英雄传说》" },
+        { text: "热爱生命，热爱每一天。", author: "《肖申克的救赎》" },
+        { text: "梦想还是要有的，万一实现了呢？", author: "《中国合伙人》" },
+        { text: "不要让任何人告诉你，你做不到。", author: "《当幸福来敲门》" },
+        { text: "人生就是一场马拉松。", author: "村上春树" },
+        { text: "激情是成功的催化剂。", author: "《社交网络》" },
+        { text: "每个人都有潜在的能量，只是很容易被习惯所掩盖。", author: "王石" },
+        { text: "把不可能变成可能。", author: "《钢铁侠》" }
+    ],
+    yellow: [  // 乐观、愉快的名言
+        { text: "微笑着面对人生。", author: "卓别林" },
+        { text: "快乐是一种心态，与外界环境无关。", author: "达赖喇嘛" },
+        { text: "生活中最美好的事物都是免费的。", author: "柯妮莉亚·芬克" },
+        { text: "今天的太阳真好啊。", author: "日本谚语" },
+        { text: "每一天都是一个新的开始。", author: "《返老还童》" },
+        { text: "保持童心就是永远年轻。", author: "沃尔特·迪士尼" },
+        { text: "生活就像一盒巧克力，你永远不知道下一颗是什么味道。", author: "《阿甘正传》" },
+        { text: "快乐是一种选择。", author: "《寻梦环游记》" },
+        { text: "阳光总在风雨后。", author: "《狮子王》" },
+        { text: "保持微笑，因为生活是美好的。", author: "《美丽人生》" },
+        { text: "每个人都值得快乐。", author: "《飞屋环游记》" },
+        { text: "笑是人类最美的语言。", author: "《摔跤吧！爸爸》" },
+        { text: "幸福是一种选择。", author: "《美丽心灵》" },
+        { text: "生活总是充满惊喜。", author: "《天空之城》" },
+        { text: "快乐是一种能力。", author: "罗素" },
+        { text: "今天的太阳依然很温暖。", author: "《千与千寻》" },
+        { text: "乐观是一种生活态度。", author: "海伦·凯勒" },
+        { text: "每一天都是礼物。", author: "《死亡诗社》" },
+        { text: "快乐是一种传染病。", author: "伏尔泰" },
+        { text: "生活就是一场冒险。", author: "《哈利·波特》" }
+    ],
+    blue: [  // 平静、深邃的名言
+        { text: "宁静致远。", author: "诸葛亮" },
+        { text: "大海的波浪越大，表明海水越深。", author: "歌德" },
+        { text: "内心的平静来自于对生活的理解。", author: "爱因斯坦" },
+        { text: "静水流深。", author: "中国谚语" },
+        { text: "真正的平静来自内心。", author: "《禅与摩托车维修艺术》" },
+        { text: "海纳百川，有容乃大。", author: "林则徐" },
+        { text: "天空越黑暗，星星越闪亮。", author: "《星际穿越》" },
+        { text: "智者如水。", author: "老子" },
+        { text: "沉默是一种力量。", author: "《肖申克的救赎》" },
+        { text: "内心的宁静才是真正的财富。", author: "《小王子》" },
+        { text: "心若止水，宁静致远。", author: "《论语》" },
+        { text: "平静是一种力量。", author: "《禅与摩托车维修艺术》" },
+        { text: "深邃的思考源于宁静的心灵。", author: "叔本华" },
+        { text: "大智若愚。", author: "老子" },
+        { text: "真正的智慧来自内心的平静。", author: "佛陀" },
+        { text: "安静是一种美德。", author: "《挪威的森林》" },
+        { text: "深海的宁静蕴藏着无限的力量。", author: "《海底两万里》" },
+        { text: "平静是最高级的享受。", author: "亚里士多德" },
+        { text: "内心的宁静是外在的力量。", author: "《瓦尔登湖》" },
+        { text: "沉默是金。", author: "中国谚语" }
+    ],
+    black: [  // 深沉、哲理的名言
+        { text: "人生如戏，戏如人生。", author: "莎士比亚" },
+        { text: "真理往往是简单的。", author: "爱因斯坦" },
+        { text: "认识自己是最艰难的功课。", author: "泰勒斯" },
+        { text: "生活不是等待暴风雨过去，而是学会在雨中跳舞。", author: "《肖申克的救赎》" },
+        { text: "人生最重要的不是所站的位置，而是所朝的方向。", author: "奥利弗·霍姆斯" },
+        { text: "命运掌握在自己手中。", author: "《教父》" },
+        { text: "过去不能改变，但未来可以。", author: "《蝙蝠侠：黑暗骑士》" },
+        { text: "生活就是一场修行。", author: "《功夫》" },
+        { text: "真相往往就在眼前。", author: "《盗梦空间》" },
+        { text: "人生最大的敌人是自己。", author: "《搏击俱乐部》" },
+        { text: "人生的意义在于寻找意义。", author: "维克多·弗兰克" },
+        { text: "存在即合理。", author: "黑格尔" },
+        { text: "我思故我在。", author: "笛卡尔" },
+        { text: "知识就是力量。", author: "培根" },
+        { text: "生活不能等待别人来安排。", author: "《教父》" },
+        { text: "人生最大的敌人是自己的懒惰。", author: "《搏击俱乐部》" },
+        { text: "真相往往是痛苦的。", author: "《黑客帝国》" },
+        { text: "选择大于努力。", author: "《闻香识女人》" },
+        { text: "人生如棋，落子无悔。", author: "《围棋少年》" },
+        { text: "生命的意义在于付出。", author: "《辛德勒的名单》" }
+    ],
+    gray: [  // 中性、平和的名言
+        { text: "平凡中孕育着伟大。", author: "普希金" },
+        { text: "生活就是一面镜子。", author: "萨克雷" },
+        { text: "时间是最好的老师。", author: "柏拉图" },
+        { text: "平淡是真。", author: "胡适" },
+        { text: "生活需要平衡。", author: "《寻梦环游记》" },
+        { text: "简单是最高级的复杂。", author: "达芬奇" },
+        { text: "生活不在于活得长，而在于活得好。", author: "《肖申克的救赎》" },
+        { text: "平凡的日子里藏着extraordinary的秘密。", author: "《怦然心动》" },
+        { text: "生活就是一个不断学习的过程。", author: "《心灵捕手》" },
+        { text: "每个人都是自己人生的作者。", author: "《返老还童》" },
+        { text: "平凡的生活也是一种幸福。", author: "《东京物语》" },
+        { text: "生活需要节奏。", author: "《海上钢琴师》" },
+        { text: "平衡是人生的智慧。", author: "《千年女优》" },
+        { text: "简单是一种美。", author: "《小森林》" },
+        { text: "生活就是一个过程。", author: "《饮食男女》" },
+        { text: "平淡中见真情。", author: "《岁月神偷》" },
+        { text: "生活需要仪式感。", author: "《天使爱美丽》" },
+        { text: "平常心是道。", author: "《禅》" },
+        { text: "生活就是一杯白水。", author: "《茶之道》" },
+        { text: "平和是一种境界。", author: "《一代宗师》" }
+    ]
 };
 
-// 初始化页面
-document.addEventListener('DOMContentLoaded', function() {
-    // 添加性别选择
-    const genderGroup = document.createElement('div');
-    genderGroup.className = 'input-group';
-    genderGroup.innerHTML = `
-        <label for="gender">性别:</label>
-        <select id="gender">
-            <option value="male">男</option>
-            <option value="female">女</option>
-        </select>
-    `;
-    
-    // 获取国籍选择元素
-    const nationalitySelect = document.getElementById('nationality');
-    
-    // 将性别选择插入到国籍选择后面
-    nationalitySelect.parentNode.after(genderGroup);
+// 当前选择的颜色
+let currentColor = null;
 
-    // 添加说明文字区域
-    const description = document.createElement('div');
-    description.id = 'country-description';
-    description.className = 'description';
-    nationalitySelect.parentNode.after(description);
-
-    // 获取性别选择元素
-    const genderSelect = document.getElementById('gender');
-    const investmentReturn = document.getElementById('investmentReturn');
-    const inflation = document.getElementById('inflation');
-    const lifeExpectancy = document.getElementById('lifeExpectancy');
-
-    // 添加事件监听器
-    nationalitySelect.addEventListener('change', function() {
-        updateDefaults(nationalitySelect, genderSelect, investmentReturn, inflation, lifeExpectancy);
+// 为每个颜色按钮添加点击事件
+document.querySelectorAll('.color-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const color = button.dataset.color;
+        const mood = button.dataset.mood;
+        currentColor = color;
+        
+        // 更新显示区域的样式
+        const quoteDisplay = document.getElementById('quoteDisplay');
+        quoteDisplay.className = `quote-display ${color}`;
+        
+        // 生成新的名言
+        generateQuote();
     });
-
-    genderSelect.addEventListener('change', function() {
-        updateDefaults(nationalitySelect, genderSelect, investmentReturn, inflation, lifeExpectancy);
-    });
-
-    // 初始化默认值
-    updateDefaults(nationalitySelect, genderSelect, investmentReturn, inflation, lifeExpectancy);
 });
 
-// 更新默认值
-function updateDefaults(nationalitySelect, genderSelect, investmentReturn, inflation, lifeExpectancy) {
-    const country = nationalitySelect.value;
-    const gender = genderSelect.value;
-    const defaults = countryDefaults[country];
-
-    console.log('更新默认值:', country, gender, defaults); // 调试信息
-
-    investmentReturn.value = defaults.investmentReturn;
-    inflation.value = defaults.inflation;
-    lifeExpectancy.value = defaults.lifeExpectancy[gender];
-
-    const descriptionElement = document.getElementById('country-description');
-    descriptionElement.textContent = defaults.description;
-    descriptionElement.style.display = 'block';
-}
-
-// 计算退休年龄
-function calculateRetirement() {
-    console.log('开始计算...'); // 调试信息
-
-    const nationalitySelect = document.getElementById('nationality');
-    const genderSelect = document.getElementById('gender');
-    const investmentReturn = document.getElementById('investmentReturn');
-    const inflation = document.getElementById('inflation');
-    const lifeExpectancy = document.getElementById('lifeExpectancy');
-
-    // 获取输入值
-    const age = Number(currentAge.value);
-    const currentSavings = Number(savings.value);
-    const yearlyIncome = Number(annualIncome.value);
-    const savingsRate = Number(savingRate.value) / 100;
-    const monthlyExpectedIncome = Number(expectedIncome.value);
-    const yearlyExpectedIncome = monthlyExpectedIncome * 12;
-    const returnRate = Number(investmentReturn.value) / 100;
-    const inflationRate = Number(inflation.value) / 100;
-    const expectedLifespan = Number(lifeExpectancy.value);
-
-    console.log('输入值:', { // 调试信息
-        age, currentSavings, yearlyIncome, savingsRate, 
-        monthlyExpectedIncome, returnRate, inflationRate, expectedLifespan
-    });
-
-    // 验证输入
-    if (!validateInputs(age, currentSavings, yearlyIncome, savingsRate, monthlyExpectedIncome,
-        returnRate, inflationRate, expectedLifespan)) {
+// 生成随机名言
+function generateQuote() {
+    if (!currentColor) {
+        alert('请先选择一个心情色！');
         return;
     }
 
-    // 计算退休年龄
-    let retirementAge = solveRetirementAge(
-        age, currentSavings, yearlyIncome, savingsRate,
-        yearlyExpectedIncome, returnRate, inflationRate, expectedLifespan
-    );
+    const quotesList = quotes[currentColor];
+    const randomIndex = Math.floor(Math.random() * quotesList.length);
+    const quote = quotesList[randomIndex];
 
-    console.log('计算结果:', retirementAge); // 调试信息
-
-    // 显示结果
-    displayResults(age, retirementAge, yearlyExpectedIncome, returnRate, inflationRate, expectedLifespan);
-}
-
-// 求解退休年龄的方程
-function solveRetirementAge(currentAge, savings, yearlyIncome, savingsRate, 
-    yearlyExpectedIncome, returnRate, inflationRate, lifeExpectancy) {
-    
-    let retirementAge = currentAge;
-    const maxAge = 100;
-    
-    while (retirementAge < maxAge) {
-        // 计算工作期间的累积资金（考虑投资回报）
-        let totalSavings = savings;
-        const workingYears = retirementAge - currentAge;
-        
-        // 计算工作期间的累积储蓄（考虑复利）
-        for (let i = 0; i < workingYears; i++) {
-            // 年度储蓄
-            totalSavings += yearlyIncome * savingsRate;
-            // 投资回报
-            totalSavings *= (1 + returnRate);
-        }
-        
-        // 计算退休后需要的总资金（考虑通货膨胀和投资回报）
-        let requiredFunds = 0;
-        let yearlyNeed = yearlyExpectedIncome;
-        
-        for (let year = 0; year < lifeExpectancy - retirementAge; year++) {
-            // 考虑通货膨胀增加的支出
-            yearlyNeed *= (1 + inflationRate);
-            // 当年需要的资金
-            requiredFunds += yearlyNeed;
-            // 剩余资金继续投资
-            requiredFunds *= (1 + returnRate);
-        }
-        
-        // 如果积累的资金足够支付退休支出
-        if (totalSavings >= requiredFunds) {
-            break;
-        }
-        
-        retirementAge++;
-    }
-    
-    return retirementAge;
-}
-
-// 验证输入
-function validateInputs(age, savings, income, rate, expectedIncome, returnRate, inflationRate, lifeExpectancy) {
-    if (!age || age < 0 || age > 100) {
-        alert('请输入有效的年龄（0-100岁）');
-        return false;
-    }
-    if (!savings || savings < 0) {
-        alert('请输入有效的当前存款');
-        return false;
-    }
-    if (!income || income < 0) {
-        alert('请输入有效的年收入');
-        return false;
-    }
-    if (!rate || rate < 0 || rate > 1) {
-        alert('请输入有效的储蓄率（0-100%）');
-        return false;
-    }
-    if (!expectedIncome || expectedIncome < 0) {
-        alert('请输入有效的预期退休收入');
-        return false;
-    }
-    if (returnRate === undefined || returnRate < 0 || returnRate > 0.2) {
-        alert('请输入有效的投资回报率（0-20%）');
-        return false;
-    }
-    if (inflationRate === undefined || inflationRate < 0 || inflationRate > 0.1) {
-        alert('请输入有效的通货膨胀率（0-10%）');
-        return false;
-    }
-    if (!lifeExpectancy || lifeExpectancy < 60 || lifeExpectancy > 120) {
-        alert('请输入有效的预期寿命（60-120岁）');
-        return false;
-    }
-    return true;
-}
-
-// 添加检查必填字段的函数
-function hasAllRequiredInputs() {
-    return currentAge.value &&
-           savings.value &&
-           annualIncome.value &&
-           savingRate.value &&
-           expectedIncome.value;
-}
-
-// 更新显示结果函数
-function displayResults(currentAge, retirementAge, yearlyExpectedIncome, returnRate, inflationRate, expectedLifespan) {
-    const yearsToRetirement = retirementAge - currentAge;
-    const nationalitySelect = document.getElementById('nationality');
-    const country = nationalitySelect.value;
-    const countryName = nationalitySelect.options[nationalitySelect.selectedIndex].text;
-    
-    // 获取家庭收支信息
-    const monthlyFamilyIncome = Number(familyIncome.value) || 0;
-    const monthlyFamilyExpense = Number(familyExpense.value) || 0;
-    const monthlySurplus = monthlyFamilyIncome - monthlyFamilyExpense;
-    
-    if (retirementAge >= 100) {
-        resultSection.innerHTML = `
-            <h2>计算结果</h2>
-            <p class="warning">根据当前的情况，可能难以达到预期的退休收入目标。</p>
-            <p>建议：</p>
-            <ul>
-                <li>增加收入或储蓄率</li>
-                <li>调整预期退休收入</li>
-                <li>考虑更积极的投资策略</li>
-                <li>寻求专业的理财建议</li>
-            </ul>
-            ${getFamilyAnalysis(monthlyFamilyIncome, monthlyFamilyExpense)}
-            <p class="note">* 计算基于${countryName}的经济参数</p>
-        `;
-    } else {
-        resultSection.innerHTML = `
-            <h2>计算结果</h2>
-            <p>预计退休年龄: <span class="highlight">${retirementAge}岁</span></p>
-            <p>距离退休还需: <span class="highlight">${yearsToRetirement}年</span></p>
-            <p>退休后年收入: <span class="highlight">${formatMoney(yearlyExpectedIncome)}元</span></p>
-            <p>投资回报率: <span class="highlight">${(returnRate * 100).toFixed(1)}%</span></p>
-            <p>通货膨胀率: <span class="highlight">${(inflationRate * 100).toFixed(1)}%</span></p>
-            <p>预期寿命: <span class="highlight">${expectedLifespan}岁</span></p>
-            ${getFamilyAnalysis(monthlyFamilyIncome, monthlyFamilyExpense)}
-            <p class="note">* 数据基于${countryName}的经济指标</p>
-            <p class="description">${countryDefaults[country].description}</p>
-        `;
-    }
-    
-    resultSection.classList.add('show');
-}
-
-// 格式化金额
-function formatMoney(amount) {
-    return amount.toLocaleString('zh-CN');
-}
-
-// 为所有输入框添加回车键支持
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            calculateRetirement();
-        }
-    });
-});
-
-// 添加家庭收支分析函数
-function getFamilyAnalysis(income, expense) {
-    if (!income && !expense) {
-        return '';
-    }
-
-    const surplus = income - expense;
-    const surplusClass = surplus >= 0 ? 'positive' : 'negative';
-    
-    return `
-        <div class="family-analysis">
-            <h3>家庭收支分析</h3>
-            ${income ? `<p>月收入: <span class="highlight">${formatMoney(income)}元</span></p>` : ''}
-            ${expense ? `<p>月支出: <span class="highlight">${formatMoney(expense)}元</span></p>` : ''}
-            ${income && expense ? `
-                <p>月度结余: <span class="highlight ${surplusClass}">${formatMoney(surplus)}元</span></p>
-                <p class="analysis-note">${getAnalysisNote(surplus)}</p>
-            ` : ''}
-        </div>
-    `;
-}
-
-// 添加分析建议函数
-function getAnalysisNote(surplus) {
-    if (surplus > 10000) {
-        return '您的家庭收支状况非常良好，建议将结余资金用于投资理财。';
-    } else if (surplus > 5000) {
-        return '您的家庭收支状况良好，建议适当增加储蓄和投资。';
-    } else if (surplus > 0) {
-        return '您的家庭收支基本平衡，建议控制支出并寻找增加收入的机会。';
-    } else {
-        return '您的家庭支出超过收入，建议及时调整支出结构，避免债务风险。';
-    }
-}
+    // 更新显示
+    const quoteDisplay = document.getElementById('quoteDisplay');
+    quoteDisplay.querySelector('.quote-text').textContent = quote.text;
+    quoteDisplay.querySelector('.quote-author').textContent = `—— ${quote.author}`;
+} 
