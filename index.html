@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退休计算器</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="退休计算器 - 帮助您规划退休生活，考虑投资回报、通货膨胀等因素的智能计算工具">
+    <meta name="keywords" content="退休计算器,退休规划,理财工具,投资规划">
+    <meta name="author" content="你的名字">
+</head>
+<body>
+    <div class="container">
+        <h1>退休计算器</h1>
+        
+        <div class="calculator">
+            <!-- 输入区域 -->
+            <div class="input-section">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="nationality">国籍:</label>
+                        <select id="nationality">
+                            <option value="CN">中国</option>
+                            <option value="US">美国</option>
+                            <option value="JP">日本</option>
+                            <option value="GB">英国</option>
+                            <option value="DE">德国</option>
+                            <option value="SG">新加坡</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="currentAge">当前年龄:</label>
+                        <input type="number" id="currentAge" min="0" max="100" placeholder="请输入">
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="savings">当前存款(元):</label>
+                        <input type="number" id="savings" min="0" placeholder="请输入当前存款">
+                    </div>
+                    <div class="input-group">
+                        <label for="annualIncome">年收入(元):</label>
+                        <input type="number" id="annualIncome" min="0" placeholder="请输入年收入">
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="savingRate">每年储蓄率(%):</label>
+                        <input type="number" id="savingRate" min="0" max="100" placeholder="每年收入的储蓄比例">
+                    </div>
+                    <div class="input-group">
+                        <label for="expectedIncome">预期退休月收入(元):</label>
+                        <input type="number" id="expectedIncome" min="0" placeholder="期望的退休后月收入">
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="investmentReturn">预期年投资回报率(%):</label>
+                        <input type="number" id="investmentReturn" min="0" max="20" placeholder="例如：5" value="5">
+                    </div>
+                    <div class="input-group">
+                        <label for="inflation">预期年通货膨胀率(%):</label>
+                        <input type="number" id="inflation" min="0" max="10" placeholder="例如：3" value="3">
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="lifeExpectancy">预期寿命(岁):</label>
+                        <input type="number" id="lifeExpectancy" min="60" max="120" placeholder="例如：85" value="85">
+                    </div>
+                    <!-- 性别选择会通过 JavaScript 动态添加到这里 -->
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="familyIncome">家庭月收入(元):</label>
+                        <input type="number" id="familyIncome" min="0" placeholder="家庭总月收入（可选）">
+                    </div>
+                    <div class="input-group">
+                        <label for="familyExpense">家庭月支出(元):</label>
+                        <input type="number" id="familyExpense" min="0" placeholder="家庭总月支��（可选）">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="calculateRetirement()">计算退休年龄</button>
+
+            <!-- 结果区域 -->
+            <div id="result" class="result-section">
+                <!-- 结果将在这里显示 -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
