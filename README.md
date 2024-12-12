@@ -12,7 +12,7 @@
 
 ## 在线使用
 
-访问 [https://marshallwang07.gitee.io/retirement-calculator](https://你的Gitee用户名.gitee.io/retirement-calculator)
+访问 https://marshallwang07.github.io/retirement-calculator/
 
 ## 本地运行
 
