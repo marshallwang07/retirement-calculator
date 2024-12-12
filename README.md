@@ -12,7 +12,7 @@
 
 ## 在线使用
 
-访问https://marshallwang07.github.io/retirement-calculator/
+访问：https://marshallwang07.github.io/retirement-calculator/
 
 ## 本地运行
 
