@@ -12,13 +12,13 @@
 
 ## 在线使用
 
-访问(https://marshallwang07.gitee.io/retirement-calculator)
+访问https://marshallwang07.github.io/retirement-calculator/
 
 ## 本地运行
 
 1. 克隆仓库：
 ```bash
-git clone https://marshallwang07.gitee.io/retirement-calculator
+git clone https://marshallwang07.github.io/retirement-calculator/
 ```
 
 2. 直接在浏览器中打开 index.html 或使用 VS Code 的 Live Server 插件
